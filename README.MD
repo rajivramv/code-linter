@@ -1,5 +1,6 @@
 # Simple Linter
 This utility lints source code to verify if it conforms to [Google's Style Guide](https://github.com/google/styleguide). It uses [checkstyle](https://checkstyle.org/index.html) and [cpplint](https://github.com/google/styleguide/tree/gh-pages/cpplint) for the linting. Currently implemented languages: Java, C++.
+#### [Click here for Demo](https://radiant-shelf-60039.herokuapp.com/)
 
 ### Dependencies
 1. Node.js >= v10.11.3
