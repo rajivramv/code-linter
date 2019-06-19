@@ -1,11 +1,11 @@
-import React, { Component, Fragment, ChangeEvent } from 'react';
+import React, { ChangeEvent, Component, Fragment } from "react";
 import AceEditor from "react-ace";
-import { sampleCppProgram, sampleJavaProgram } from "./samples";
 import { getLintResults } from "./api";
 import "./App.css";
+import { sampleCppProgram, sampleJavaProgram } from "./samples";
 
-import "brace/mode/java";
 import "brace/mode/c_cpp";
+import "brace/mode/java";
 import "brace/theme/monokai";
 
 export interface IAnnotation {
@@ -23,55 +23,32 @@ interface IAppState {
 }
 
 class App extends Component<{}, IAppState> {
-  state = {
-    lang: "",
+  public state = {
     annotations: [],
     code: "",
-    hasSyntacticErrors: false
-  }
+    hasSyntacticErrors: false,
+    lang: ""
+  };
 
-  setJavaCode = () => {
-    this.setState({ code: sampleJavaProgram, lang: "java", annotations: [], hasSyntacticErrors: false })
-  }
-
-  setCppCode = () => {
-    this.setState({ code: sampleCppProgram, lang: "cpp", annotations: [], hasSyntacticErrors: false })
-  }
-
-  setLanguage = (e: ChangeEvent<HTMLSelectElement>) => {
-    this.setState({ lang: e.target.value })
-  }
-
-  componentDidUpdate = (prevProps: {}, prevState: IAppState) => {
+  public componentDidUpdate = (prevProps: {}, prevState: IAppState) => {
     if (prevState.code !== this.state.code || prevState.lang !== this.state.lang) {
-      this.refreshLint()
+      this.refreshLint();
     }
   }
 
-  refreshLint = async () => {
-    try {
-      const annotations = await getLintResults(this.state.code, this.state.lang);
-      this.setState({ annotations, hasSyntacticErrors: false });   
-    } catch(e) {
-      this.setState({ hasSyntacticErrors: true })
-    }
-  }
-
-  onCodeChange = async (value: string) => {
-    this.setState({ code: value })
-    this.refreshLint()
-  }
-
-  render = () => (
+  public render = () => (
     <Fragment>
       <h1>Simple Linter</h1>
+      {/* tslint:disable-next-line: max-line-length */}
       <p>This utility lints source code to verify if it conforms <a href="https://github.com/google/styleguide">Google's Style Guide</a>. It uses <a href="https://checkstyle.org/index.html">checkstyle</a> and <a href="https://github.com/google/styleguide/tree/gh-pages/cpplint">cpplint</a> for the linting. Currently implemented languages: <strong>Java, C++</strong></p>
+      {/* tslint:disable-next-line: max-line-length */}
       <p>Add sample code: <button onClick={this.setJavaCode}>Java</button><button onClick={this.setCppCode}>C++</button></p>
+      {/* tslint:disable-next-line: max-line-length */}
       <p>Language: <select onChange={this.setLanguage} value={this.state.lang}><option value="java">Java</option><option value="cpp">C++</option></select></p>
       {this.state.hasSyntacticErrors && <p className="error"> There are syntax errors! Please correct them. </p>}
       <div id="code-linter-container">
         <AceEditor
-          mode={this.state.lang === "cpp" ? "c_cpp": "java"}
+          mode={this.state.lang === "cpp" ? "c_cpp" : "java"}
           theme="monokai"
           onChange={this.onCodeChange}
           name="code-linter"
@@ -84,7 +61,32 @@ class App extends Component<{}, IAppState> {
       </div>
     </Fragment>
   )
-}
+  private setJavaCode = () => {
+    this.setState({ code: sampleJavaProgram, lang: "java", annotations: [], hasSyntacticErrors: false });
+  }
 
+  private setCppCode = () => {
+    this.setState({ code: sampleCppProgram, lang: "cpp", annotations: [], hasSyntacticErrors: false });
+  }
+
+  private setLanguage = (e: ChangeEvent<HTMLSelectElement>) => {
+    this.setState({ lang: e.target.value });
+  }
+
+  private refreshLint = async () => {
+    try {
+      const annotations = await getLintResults(this.state.code, this.state.lang);
+      this.setState({ annotations, hasSyntacticErrors: false });
+    } catch (e) {
+      this.setState({ hasSyntacticErrors: true });
+    }
+  }
+
+  private onCodeChange = async (value: string) => {
+    this.setState({ code: value });
+    this.refreshLint();
+  }
+
+}
 
 export default App;
