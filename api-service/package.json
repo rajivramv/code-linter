@@ -1,7 +1,7 @@
 {
   "name": "api-service",
   "version": "0.1.0",
-  "description": "Backend for code analyzer",
+  "description": "Backend for code linter",
   "main": "dist",
   "scripts": {
     "build": "tsc",
@@ -11,7 +11,7 @@
   },
   "keywords": [
     "Code",
-    "analyzer",
+    "linter",
     "backend"
   ],
   "author": "Rajiv Ram V <rajivram.v@gmail.com>",

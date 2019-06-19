@@ -2,18 +2,18 @@ import { spawn } from "child_process";
 import { writeFile } from "fs";
 import tmp from "tmp";
 
-export interface IAnalyzeRequest {
+export interface ILintRequest {
   code: string;
   lang: string;
 }
 
-export interface IAnalyzeResult {
+export interface ILintResult {
   lang: "cpp" | "java";
   errors: string;
   completed: string;
 }
 
-export const analyze = (job: IAnalyzeRequest): Promise<IAnalyzeResult> => {
+export const lint = (job: ILintRequest): Promise<ILintResult> => {
   return new Promise((resolve, reject) => {
     switch (job.lang) {
       case "cpp":
@@ -73,3 +73,7 @@ export const analyze = (job: IAnalyzeRequest): Promise<IAnalyzeResult> => {
     }
   });
 };
+
+// const detectLanguage = (code: string): Promise<string> => {
+
+// }
